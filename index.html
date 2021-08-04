@@ -25,7 +25,7 @@
 
         <div class="search">
           <input type="text" id="inp" />
-          <button onclick="videoData()">
+          <button >
             <span class="material-icons"> search </span>
           </button>
         </div>
@@ -40,67 +40,26 @@
   async function videoData() {
     let q = document.getElementById("inp").value;
 
-    let response = await fetch(    `https://youtube.googleapis.com/youtube/v3/videos?chart=mostPopular&regionCode=IN&key=AIzaSyA8v_0KPoAnTZB9V1Pi-Qo8v32aghmXLpk`
-);
-
-
-// `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=IN&key=AIzaSyA8v_0KPoAnTZB9V1Pi-Qo8v32aghmXLpk`
-    // &maxResults=20
-
-    // &format=5&restriction=DE
+    let response = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/videos?chart=mostPopular&regionCode=IN&key=AIzaSyA8v_0KPoAnTZB9V1Pi-Qo8v32aghmXLpk&maxResults=8`
+    );
 
     let data = await response.json();
 
-    console.log(data);
-
     let videoDiv = document.getElementById("videos");
 
-          videoDiv.innerHTML=null;
-
+    videoDiv.innerHTML = null;
 
     let { items } = data;
 
-    // items = items.filter((ele) => ele.id.videoId != undefined);
-
-    //    items = items.filter((el) => {
-    //   return el.id.videoId != undefined;
-    // });
-
-
-console.log(items);
-    items.forEach(({id: { videoId } }) => {
-
+    items.forEach(({ id }) => {
       let div = document.createElement("div");
-    //   let details = document.createElement("div");
-    //   let block = document.createElement("div");
 
+      div.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${id}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 
-    //   block.setAttribute('class','box');
-    //   div.setAttribute('class','thumbnail')
-      
-
-    //   let channel=document.createElement('p')
-    //   let des=document.createElement('p')
-    //   let tit=document.createElement('p')
-    //   let publish=document.createElement('p')
-
-
-    //    channel.innerHTML=channelTitle;
-    //   des.innerHTML=description;
-    //   tit.innerHTML=title;
-    //   publish.innerHTML=publishTime;
-
-    //  des.style.fontWeight='bold';
-
-      div.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-
-      // details.append(des,channel,tit,publish,);
-      // block.append(div,details);
       videoDiv.append(div);
-
-
     });
-
-
   }
+
+  videoData();
 </script>
